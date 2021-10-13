@@ -1,7 +1,7 @@
-
 [package]
 name = "mingo"
 version = "0.1.0"
+authors = ["Andre Richter <andre.o.richter@gmail.com>"]
 edition = "2018"
 
 [profile.release]
@@ -16,5 +16,8 @@ bsp_rpi4 = []
 name = "kernel"
 path = "src/main.rs"
 
+##--------------------------------------------------------------------------------------------------
+## Dependencies
+##--------------------------------------------------------------------------------------------------
 
 [dependencies]

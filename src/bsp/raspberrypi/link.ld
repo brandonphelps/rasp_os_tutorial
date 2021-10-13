@@ -1,4 +1,5 @@
 
+__rpi_load_addr = 0x80000;
 
 ENTRY(__rpi_load_addr)
 
