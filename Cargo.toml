@@ -1,6 +1,6 @@
 [package]
 name = "mingo"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Andre Richter <andre.o.richter@gmail.com>"]
 edition = "2018"
 
@@ -21,3 +21,6 @@ path = "src/main.rs"
 ##--------------------------------------------------------------------------------------------------
 
 [dependencies]
+
+[target.'cfg(target_arch = "aarch64")'.dependencies]
+cortex-a = { version = "6.x.x" }

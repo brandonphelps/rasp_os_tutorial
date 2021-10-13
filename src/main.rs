@@ -3,11 +3,16 @@
 
 //! The 'kenerl' binary.
 
-#![feature(asm)]
 #![feature(global_asm)]
 #![no_main]
 #![no_std]
 
 mod bsp;
+mod cpu;
 
 mod panic_wait;
+
+/// - only a single core must be active and running this function.
+unsafe fn kernel_init() -> !{
+       panic!()
+}

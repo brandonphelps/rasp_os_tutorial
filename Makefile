@@ -96,20 +96,20 @@ all: $(KERNEL_BIN)
 ##------------------------------------------------------------------------------
 $(KERNEL_ELF):
 	$(call colorecho, "\nCompiling kernel - $(BSP)")
-	@RUSTFLAGS="$(RUSTFLAGS_PEDANTIC)" $(RUSTC_CMD)
+	RUSTFLAGS="$(RUSTFLAGS_PEDANTIC)" $(RUSTC_CMD)
 
 ##------------------------------------------------------------------------------
 ## Build the stripped kernel binary
 ##------------------------------------------------------------------------------
 $(KERNEL_BIN): $(KERNEL_ELF)
-	@$(OBJCOPY_CMD) $(KERNEL_ELF) $(KERNEL_BIN)
+	$(OBJCOPY_CMD) $(KERNEL_ELF) $(KERNEL_BIN)
 
 ##------------------------------------------------------------------------------
 ## Build the documentation
 ##------------------------------------------------------------------------------
 doc:
 	$(call colorecho, "\nGenerating docs")
-	@$(DOC_CMD) --document-private-items --open
+	$(DOC_CMD) --document-private-items --open
 
 ##------------------------------------------------------------------------------
 ## Run the kernel in QEMU
@@ -123,7 +123,7 @@ else # QEMU is supported.
 
 qemu: $(KERNEL_BIN)
 	$(call colorecho, "\nLaunching QEMU")
-	@$(DOCKER_QEMU) $(EXEC_QEMU) $(QEMU_RELEASE_ARGS) -kernel $(KERNEL_BIN)
+	$(DOCKER_QEMU) $(EXEC_QEMU) $(QEMU_RELEASE_ARGS) -kernel $(KERNEL_BIN)
 endif
 
 ##------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ clean:
 ##------------------------------------------------------------------------------
 readelf: $(KERNEL_ELF)
 	$(call colorecho, "\nLaunching readelf")
-	@$(DOCKER_TOOLS) $(READELF_BINARY) --headers $(KERNEL_ELF)
+	$(DOCKER_TOOLS) $(READELF_BINARY) --headers $(KERNEL_ELF)
 
 ##------------------------------------------------------------------------------
 ## Run objdump
@@ -152,6 +152,8 @@ objdump: $(KERNEL_ELF)
 	$(call colorecho, "\nLaunching objdump")
 	@$(DOCKER_TOOLS) $(OBJDUMP_BINARY) --disassemble --demangle \
                 --section .text   \
+		--section .rodata \
+		--section .got    \
                 $(KERNEL_ELF) | rustfilt
 
 ##------------------------------------------------------------------------------
