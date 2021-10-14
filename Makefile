@@ -79,6 +79,7 @@ EXEC_MINITERM          = ruby common/serial/miniterm.rb
 EXEC_TEST_DISPATCH     = ruby common/tests/dispatch.rb
 EXEC_TEST_MINIPUSH     = ruby tests/chainboot_test.rb
 EXEC_MINIPUSH          = ruby common/serial/minipush.rb
+EXEC_MINITERM_RUST     = ./miniterm/target/debug/miniterm
 
 ##------------------------------------------------------------------------------
 ## Dockerization
@@ -100,6 +101,7 @@ ifeq ($(shell uname -s),Linux)
 DOCKER_CMD_DEV = $(DOCKER_CMD_INTERACT) $(DOCKER_ARG_DEV)
 
 DOCKER_MINITERM = $(DOCKER_CMD_DEV) $(DOCKER_ARG_DIR_COMMON) $(DOCKER_IMAGE)
+DOCKER_MINITERM_RUST = $(DOCKER_CMD_DEV) $(DOCKER_ARG_DIR_COMMON) $(DOCKER_IMAGE)
 DOCKER_CHAINBOOT = $(DOCKER_CMD_DEV) $(DOCKER_ARG_DIR_COMMON) $(DOCKER_IMAGE)
 
 endif
@@ -150,8 +152,10 @@ endif
 
 exec:
 	$(call colorecho, "\nShelling into docker")
-	$(DOCKER_CMD_INTERACT) $(DOCKER_IMAGE) sh
+	$(DOCKER_CMD_INTERACT) $(DOCKER_IMAGE) bash
 
+rust_miniterm:
+	$(DOCKER_MINITERM_RUST) $(EXEC_MINITERM_RUST) $(DEV_SERIAL)
 
 miniterm:
 	$(DOCKER_MINITERM) $(EXEC_MINITERM) $(DEV_SERIAL)
