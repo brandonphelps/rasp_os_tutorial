@@ -143,7 +143,6 @@ unsafe fn kernel_init() -> ! {
     kernel_main()
 }
 
-
 const MINILOAD_LOGO: &str = r#"
  __  __ _      _ _                 _
 |  \/  (_)_ _ (_) |   ___  __ _ __| |
@@ -162,15 +161,13 @@ fn kernel_main() -> ! {
     println!("[ML] Requesting binary");
     console().flush();
 
-
-    // Discard any spurious received characters before going starting with the loader protocol.
+    // Discard any spurious received characters before starting with the loader protocol.
     console().clear_rx();
 
-    // Notify 'minipush' to send the binary.
+    // Notify `Minipush` to send the binary.
     for _ in 0..3 {
         console().write_char(3 as char);
     }
-
 
     // Read the binary's size.
     let mut size: u32 = u32::from(console().read_char() as u8);
@@ -190,12 +187,12 @@ fn kernel_main() -> ! {
         }
     }
 
-    println!("[ML Loaded! Executing the payload now\n");
+    println!("[ML] Loaded! Executing the payload now\n");
     console().flush();
 
     // Use black magic to create a function pointer.
     let kernel: fn() -> ! = unsafe { core::mem::transmute(kernel_addr) };
-    
+
     // Jump to loaded kernel!
     kernel()
 }

@@ -16,8 +16,8 @@ PHDRS
 
 SECTIONS
 {
-	/* Set the link address to 32 MiB */
-	. = 0x2000000;
+    /* Set the link address to 32 MiB */
+    . = 0x2000000;
                                         /*   ^             */
                                         /*   | stack       */
                                         /*   | growth      */

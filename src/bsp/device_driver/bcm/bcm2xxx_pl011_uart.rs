@@ -299,7 +299,6 @@ impl PL011UartInner {
         }
 
         // Read one character.
-
         let ret = self.registers.DR.get() as u8 as char;
 
         // Update statistics.
