@@ -1,12 +1,23 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+//
+// Copyright (c) 2020-2021 Andre Richter <andre.o.richter@gmail.com>
+
+//! Common device driver code.
 
 use core::{marker::PhantomData, ops};
 
+//--------------------------------------------------------------------------------------------------
+// Public Definitions
+//--------------------------------------------------------------------------------------------------
 
 pub struct MMIODerefWrapper<T> {
     start_addr: usize,
     phantom: PhantomData<fn() -> T>,
 }
 
+//--------------------------------------------------------------------------------------------------
+// Public Code
+//--------------------------------------------------------------------------------------------------
 
 impl<T> MMIODerefWrapper<T> {
     /// Create an instance.
@@ -22,7 +33,6 @@ impl<T> ops::Deref for MMIODerefWrapper<T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
-        // does raw def at the memory map i/o wrapper. 
         unsafe { &*(self.start_addr as *const _) }
     }
 }
